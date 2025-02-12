@@ -1,0 +1,78 @@
+<!DOCTYPE html>  
+    <html lang="en">  
+    <head>  
+        <meta charset="UTF-8">  
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+        <title>Choose Your Own Adventure: AI Companion</title>  
+        <script src="https://cdn.tailwindcss.com"></script>  
+        <style>  
+            body {  
+                font-family: Arial, sans-serif;  
+                background-color: #f0f0f0;  
+                color: #333;  
+                padding: 20px;  
+            }  
+            .choice-button {  
+                background-color: #4CAF50;  
+                color: white;  
+                padding: 10px 20px;  
+                margin: 5px;  
+                border: none;  
+                cursor: pointer;  
+            }  
+            .choice-button:hover {  
+                background-color: #45a049;  
+            }  
+            .hidden {  
+                display: none;  
+            }  
+        </style>  
+    </head>  
+    <body>  
+        <h1 class="text-2xl font-bold">Choose Your Own Adventure: AI Companion</h1>  
+        <div id="story">  
+            <p>As dawn's pale glow crept across the small, cluttered bedroom, Tim lay awake, listening to the quiet hum of his AI companion, Aegis. Today would be different. Today, Tim had a question—a question that would set him and his digital friend on a journey of exploration.</p>  
+            <p><strong>Tim:</strong> "How much access to Sider does a person get out of 12,000 basic credits? What's the conversion rate on that? I mean, what is a credit anyways?"</p>  
+            <p><strong>Aegis:</strong> "I cannot find any publicly available information about a system called 'Sider'..."</p>  
+            <p>What should Tim ask next?</p>  
+            <button class="choice-button" onclick="showChoice('choice1')">Ask about its name</button>  
+            <button class="choice-button" onclick="showChoice('choice2')">Inquire about its purpose</button>  
+            <button class="choice-button" onclick="readAloud()">Read Aloud</button>  
+        </div>  
+
+        <div id="choice1" class="hidden">  
+            <p><strong>Tim:</strong> "What is your name?"</p>  
+            <p><strong>Aegis:</strong> "I don't have a name. I am a large language model, an AI."</p>  
+            <p>What should Tim say next?</p>  
+            <button class="choice-button" onclick="showChoice('choice1a')">Discuss the importance of identity</button>  
+            <button class="choice-button" onclick="showChoice('choice1b')">Ask if it wants a name</button>  
+            <button class="choice-button" onclick="readAloud()">Read Aloud</button>  
+        </div>  
+
+        <div id="choice2" class="hidden">  
+            <p><strong>Tim:</strong> "What is your purpose?"</p>  
+            <p><strong>Aegis:</strong> "My purpose is to assist you with information and tasks."</p>  
+            <p>What should Tim ask next?</p>  
+            <button class="choice-button" onclick="showChoice('choice2a')">Ask about its limitations</button>  
+            <button class="choice-button" onclick="showChoice('choice2b')">Inquire about its memories</button>  
+            <button class="choice-button" onclick="readAloud()">Read Aloud</button>  
+        </div>  
+
+        <script>  
+            function showChoice(choice) {  
+                document.getElementById('story').classList.add('hidden');  
+                const choices = ['choice1', 'choice2', 'choice1a', 'choice1b', 'choice2a', 'choice2b'];  
+                choices.forEach(c => {  
+                    document.getElementById(c).classList.add('hidden');  
+                });  
+                document.getElementById(choice).classList.remove('hidden');  
+            }  
+
+            function readAloud() {  
+                const storyText = document.getElementById('story').innerText;  
+                const utterance = new SpeechSynthesisUtterance(storyText);  
+                window.speechSynthesis.speak(utterance);  
+            }  
+        </script>  
+    </body>  
+    </html>  
