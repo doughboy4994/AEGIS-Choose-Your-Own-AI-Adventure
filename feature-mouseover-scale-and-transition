@@ -1,0 +1,54 @@
+# Mouse-over effects to animate the timeline and other interactive features: code for feature-scaling , reaction to mouse-proximity, transition logic, and timing example below.
+
+const tipNumbersContainer = $0;
+const tipNumberElements = Array.from(tipNumbersContainer.querySelectorAll('.tip-number'));
+
+function calculateDistance(x1, y1, x2, y2) {
+  return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+}
+
+function updateTipSizes(event, maxScale) {
+  const mouseX = event.clientX;
+  const mouseY = event.clientY;
+
+  tipNumberElements.forEach(tip => {
+    const rect = tip.getBoundingClientRect();
+    const tipCenterX = rect.left + rect.width / 2;
+    const tipCenterY = rect.top + rect.height / 2;
+    const distance = calculateDistance(mouseX, mouseY, tipCenterX, tipCenterY);
+
+    // Define a maximum distance for the effect
+    const maxDistance = 200;
+
+    // Calculate the scale based on the distance
+    let scale = 1;
+    if (distance < maxDistance) {
+      scale = 1 + (maxScale - 1) * (1 - distance / maxDistance);
+    }
+
+    // Apply the scale transform
+    tip.style.transform = `scale(${scale})`;
+    tip.style.zIndex = scale > 1 ? 10 : 'auto';
+  });
+}
+
+// Remove previous event listeners if they exist
+tipNumbersContainer.removeEventListener('mousemove', tipNumbersContainer.updateTipSizes);
+tipNumbersContainer.removeEventListener('mouseleave', tipNumbersContainer.resetTipSizes);
+
+// Add mousemove event listener to the container
+tipNumbersContainer.updateTipSizes = (event) => updateTipSizes(event, 2);
+tipNumbersContainer.addEventListener('mousemove', tipNumbersContainer.updateTipSizes);
+
+// Add mouseleave event listener to reset the scale
+tipNumbersContainer.resetTipSizes = () => {
+  tipNumberElements.forEach(tip => {
+    tip.style.transform = 'scale(1)';
+    tip.style.zIndex = 'auto';
+  });
+};
+tipNumbersContainer.addEventListener('mouseleave', tipNumbersContainer.resetTipSizes);
+
+const data = {
+  message: 'Max scale changed to 2',
+};
